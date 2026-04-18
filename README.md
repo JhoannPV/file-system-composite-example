@@ -69,16 +69,15 @@ Construir una simulacion de File System donde:
 ## Scripts
 
 ```bash
-npm install
-npm run dev
+deno task dev
 ```
 
 Otros scripts:
 
 ```bash
-npm run build
-npm run preview
-npm run lint
+deno task build
+deno task preview
+deno task lint
 ```
 
 ## Notas de Diseno
