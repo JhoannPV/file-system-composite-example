@@ -18,6 +18,10 @@ export class Folder implements FileSystemItem {
 
     getName(): string { return this.name; }
 
+    rename(newName: string): void {
+        this.name = newName;
+    }
+
     // Delega a sus hijos y acumula el resultado
     getSize(): number {
         return this.children.reduce((total, item) => total + item.getSize(), 0);

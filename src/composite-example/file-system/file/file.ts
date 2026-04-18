@@ -10,5 +10,6 @@ export class File implements FileSystemItem {
     }
 
     getName(): string { return this.name; }
+    rename(newName: string): void { this.name = newName; }
     getSize(): number { return this.size; }
 }
