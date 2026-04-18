@@ -1,75 +1,92 @@
-# React + TypeScript + Vite
+# File System Composite Example
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Proyecto academico para practicar el patron Composite modelando un sistema de archivos (File + Folder) y una interfaz tipo explorador.
 
-Currently, two official plugins are available:
+## Objetivo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Construir una simulacion de File System donde:
 
-## React Compiler
+1. `File` y `Folder` implementan la misma interfaz (`FileSystemItem`).
+2. `Folder` puede contener elementos anidados (`File` y otras `Folder`).
+3. La UI permite crear, renombrar, eliminar y navegar sobre esa estructura.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## Stack
 
-Note: This will impact Vite dev & build performances.
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
+- shadcn/ui (Context Menu, Dialog, Input)
+- Radix UI
+- React Router
 
-## Expanding the ESLint configuration
+## Estructura Relevante
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- `src/composite-example/file-system/file-system-item/file-system-item.ts`
+  Define la interfaz base `FileSystemItem`.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- `src/composite-example/file-system/file/file.ts`
+  Implementacion de `File` (nombre, tamano, rename, getSize).
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- `src/composite-example/file-system/folder/folder.ts`
+  Implementacion de `Folder` (children, add, remove, rename, getSize acumulado).
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- `src/composite-example/pages/composite-example.tsx`
+  Vista principal del explorador (dark mode), interacciones y render.
+
+- `src/composite-example/utils/types.ts`
+  Tipos compartidos del arbol (`ExplorerNode`, `SerializedNode`).
+
+- `src/composite-example/utils/tree-utils.ts`
+  Helpers del arbol: busqueda, actualizacion, borrado, serializacion y calculo de tamano.
+
+- `src/composite-example/utils/storage-utils.ts`
+  Persistencia temporal en `sessionStorage`.
+
+- `src/composite-example/utils/format-utils.ts`
+  Formato de tamano y extension de archivo.
+
+## Funcionalidades Implementadas
+
+- Crear carpeta y archivo con context menu.
+- Renombrar carpeta y archivo con dialog + input.
+- Eliminar carpeta y archivo con context menu.
+- Navegacion anidada:
+  - `Este equipo` regresa a raiz.
+  - Flecha volver al nivel anterior.
+  - Doble clic en fila de carpeta para entrar.
+  - Breadcrumb navegable.
+- Columna `Tipo`:
+  - En archivos muestra extension.
+  - En carpetas muestra `-`.
+- Columna `Tamano`:
+  - En archivos muestra tamano individual.
+  - En carpetas muestra tamano acumulado de hijos.
+- Persistencia de sesion:
+  - Se conserva mientras la pestana/navegador este abierto.
+  - Al cerrar el navegador, se pierde el estado.
+
+## Scripts
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Otros scripts:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build
+npm run preview
+npm run lint
 ```
+
+## Notas de Diseno
+
+- Se usa `sessionStorage` en lugar de `localStorage` para no persistir datos al cerrar el navegador.
+- La logica se separo en `utils` para mejorar legibilidad y mantenimiento.
+- El modelo Composite (`File` / `Folder`) se mantiene como base conceptual del dominio.
+
+## Estado
+
+Este proyecto esta orientado a demostracion del patron Composite en frontend, no a uso productivo como gestor real de archivos.
