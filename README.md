@@ -26,7 +26,7 @@ Construir una simulacion de File System donde:
   Define la interfaz base `FileSystemItem`.
 
 - `src/composite-example/file-system/file/file.ts`
-  Implementacion de `File` (nombre, tamano, rename, getSize).
+  Implementacion de `File` (nombre, tamaño, rename, getSize).
 
 - `src/composite-example/file-system/folder/folder.ts`
   Implementacion de `Folder` (children, add, remove, rename, getSize acumulado).
@@ -38,13 +38,13 @@ Construir una simulacion de File System donde:
   Tipos compartidos del arbol (`ExplorerNode`, `SerializedNode`).
 
 - `src/composite-example/utils/tree-utils.ts`
-  Helpers del arbol: busqueda, actualizacion, borrado, serializacion y calculo de tamano.
+  Helpers del arbol: busqueda, actualizacion, borrado, serializacion y calculo de tamaño.
 
 - `src/composite-example/utils/storage-utils.ts`
   Persistencia temporal en `sessionStorage`.
 
 - `src/composite-example/utils/format-utils.ts`
-  Formato de tamano y extension de archivo.
+  Formato de tamaño y extension de archivo.
 
 ## Funcionalidades Implementadas
 
@@ -59,9 +59,9 @@ Construir una simulacion de File System donde:
 - Columna `Tipo`:
   - En archivos muestra extension.
   - En carpetas muestra `-`.
-- Columna `Tamano`:
-  - En archivos muestra tamano individual.
-  - En carpetas muestra tamano acumulado de hijos.
+- Columna `Tamaño`:
+  - En archivos muestra tamaño individual.
+  - En carpetas muestra tamaño acumulado de hijos.
 - Persistencia de sesion:
   - Se conserva mientras la pestana/navegador este abierto.
   - Al cerrar el navegador, se pierde el estado.
@@ -80,7 +80,7 @@ deno task preview
 deno task lint
 ```
 
-## Notas de Diseno
+## Notas de Diseño
 
 - Se usa `sessionStorage` en lugar de `localStorage` para no persistir datos al cerrar el navegador.
 - La logica se separo en `utils` para mejorar legibilidad y mantenimiento.
